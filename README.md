@@ -11,6 +11,10 @@
 
 </div>
 
+<div align="center">
+  <img src="demo.webp" alt="60-Second Demo Video of Techfest 3D Web Experience" width="800" />
+</div>
+
 ---
 
 ## ✨ About
