@@ -1,9 +1,6 @@
-/* =============================================
-   TECHFEST 2025 — IIT Bombay
-   Main Stylesheet
-   ============================================= */
 
-/* ---- DESIGN TOKENS ---- */
+
+
 :root {
   --bg-void: #020408;
   --bg-deep: #050d18;
@@ -30,7 +27,7 @@
   --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* ---- RESET & BASE ---- */
+
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 html {
@@ -52,17 +49,15 @@ ul { list-style: none; }
 img { max-width: 100%; display: block; }
 button { cursor: pointer; border: none; background: none; font-family: inherit; }
 
-/* ---- SCROLLBAR ---- */
+
 ::-webkit-scrollbar { width: 4px; }
 ::-webkit-scrollbar-track { background: var(--bg-void); }
 ::-webkit-scrollbar-thumb { background: var(--accent-cyan); border-radius: 2px; }
 
-/* ---- SELECTION ---- */
+
 ::selection { background: rgba(0, 212, 255, 0.3); color: white; }
 
-/* =============================================
-   CUSTOM CURSOR
-   ============================================= */
+
 .cursor {
   position: fixed;
   width: 12px;
@@ -102,9 +97,7 @@ body:has(button:hover) .cursor-trail {
   border-color: rgba(123, 47, 255, 0.4);
 }
 
-/* =============================================
-   LOADER
-   ============================================= */
+
 .loader {
   position: fixed;
   inset: 0;
@@ -186,9 +179,7 @@ body:has(button:hover) .cursor-trail {
   50% { filter: drop-shadow(0 0 40px rgba(123,47,255,0.8)); }
 }
 
-/* =============================================
-   NAVIGATION
-   ============================================= */
+
 .nav {
   position: fixed;
   top: 0;
@@ -336,9 +327,7 @@ body:has(button:hover) .cursor-trail {
 }
 .mobile-link:hover { color: var(--accent-cyan); }
 
-/* =============================================
-   HERO
-   ============================================= */
+
 .hero {
   position: relative;
   min-height: 100vh;
@@ -451,7 +440,7 @@ body:has(button:hover) .cursor-trail {
   transform: translateY(20px);
 }
 
-/* ---- BUTTONS ---- */
+
 .btn {
   display: inline-flex;
   align-items: center;
@@ -502,7 +491,7 @@ body:has(button:hover) .cursor-trail {
   transform: translateY(-3px);
 }
 
-/* ---- STATS ---- */
+
 .hero-stats {
   display: flex;
   align-items: center;
@@ -552,7 +541,7 @@ body:has(button:hover) .cursor-trail {
   opacity: 0.4;
 }
 
-/* ---- SCROLL INDICATOR ---- */
+
 .hero-scroll-indicator {
   position: absolute;
   bottom: 40px;
@@ -584,9 +573,7 @@ body:has(button:hover) .cursor-trail {
   color: var(--text-muted);
 }
 
-/* =============================================
-   SHARED SECTION STYLES
-   ============================================= */
+
 .section-tag {
   display: inline-flex;
   align-items: center;
@@ -638,9 +625,7 @@ body:has(button:hover) .cursor-trail {
   margin: 0 auto;
 }
 
-/* =============================================
-   ABOUT SECTION
-   ============================================= */
+
 .about {
   position: relative;
   min-height: 100vh;
@@ -733,7 +718,7 @@ body:has(button:hover) .cursor-trail {
   color: var(--text-muted);
 }
 
-/* About 3D visual */
+
 .about-visual-col {
   display: flex;
   align-items: center;
@@ -766,7 +751,7 @@ body:has(button:hover) .cursor-trail {
   to { transform: rotate(360deg); }
 }
 
-/* Timeline */
+
 .timeline-section {
   position: relative;
   z-index: 2;
@@ -859,9 +844,7 @@ body:has(button:hover) .cursor-trail {
   line-height: 1.6;
 }
 
-/* =============================================
-   EVENTS SECTION
-   ============================================= */
+
 .events {
   position: relative;
   min-height: 100vh;
@@ -1030,9 +1013,7 @@ body:has(button:hover) .cursor-trail {
 .event-link svg { width: 14px; height: 14px; transition: transform var(--transition); }
 .event-card:hover .event-link svg { transform: translateX(4px); }
 
-/* =============================================
-   GLOBE SECTION
-   ============================================= */
+
 .globe-section {
   position: relative;
   min-height: 100vh;
@@ -1118,9 +1099,7 @@ body:has(button:hover) .cursor-trail {
   color: var(--accent-cyan);
 }
 
-/* =============================================
-   SPEAKERS SECTION
-   ============================================= */
+
 .speakers {
   position: relative;
   min-height: 100vh;
@@ -1304,9 +1283,7 @@ body:has(button:hover) .cursor-trail {
   box-shadow: 0 0 8px var(--accent-cyan);
 }
 
-/* =============================================
-   CONTACT SECTION
-   ============================================= */
+
 .contact {
   position: relative;
   min-height: 100vh;
@@ -1351,7 +1328,7 @@ body:has(button:hover) .cursor-trail {
   max-width: 500px;
 }
 
-/* Form */
+
 .contact-form {
   display: flex;
   flex-direction: column;
@@ -1428,7 +1405,7 @@ body:has(button:hover) .cursor-trail {
   padding: 18px 48px;
 }
 
-/* Success state */
+
 .contact-success {
   display: none;
   text-align: center;
@@ -1468,7 +1445,7 @@ body:has(button:hover) .cursor-trail {
 
 .contact-success p { color: var(--text-secondary); }
 
-/* Side info */
+
 .contact-side {
   display: flex;
   flex-direction: column;
@@ -1555,9 +1532,7 @@ body:has(button:hover) .cursor-trail {
   box-shadow: 0 8px 20px rgba(0, 212, 255, 0.2);
 }
 
-/* =============================================
-   FOOTER
-   ============================================= */
+
 .footer {
   background: var(--bg-void);
   border-top: 1px solid var(--glass-border);
@@ -1610,9 +1585,7 @@ body:has(button:hover) .cursor-trail {
 
 .footer-links a:hover { color: var(--accent-cyan); }
 
-/* =============================================
-   SCROLL-TRIGGERED ANIMATIONS (via GSAP classes)
-   ============================================= */
+
 .reveal {
   opacity: 0;
   transform: translateY(40px);
@@ -1633,9 +1606,7 @@ body:has(button:hover) .cursor-trail {
   transform: scale(0.85);
 }
 
-/* =============================================
-   RESPONSIVE
-   ============================================= */
+
 @media (max-width: 1024px) {
   .about-container {
     grid-template-columns: 1fr;
@@ -1698,9 +1669,7 @@ body:has(button:hover) .cursor-trail {
   .section-title { font-size: 32px; }
 }
 
-/* =============================================
-   UTILITY CLASSES
-   ============================================= */
+
 .sr-only {
   position: absolute;
   width: 1px;
@@ -1713,7 +1682,7 @@ body:has(button:hover) .cursor-trail {
   border: 0;
 }
 
-/* Focus styles for keyboard nav */
+
 a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-visible {
   outline: 2px solid var(--accent-cyan);
   outline-offset: 3px;

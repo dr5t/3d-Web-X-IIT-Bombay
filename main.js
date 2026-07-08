@@ -1,16 +1,13 @@
-/* =============================================
-   TECHFEST 2025 — IIT Bombay
-   Main JavaScript — Three.js + GSAP
-   ============================================= */
+
 
 'use strict';
 
-// ---- GSAP Plugin Registration ----
+
 gsap.registerPlugin(ScrollTrigger, ScrollToPlugin);
 
-// =============================================
-// LOADER
-// =============================================
+
+
+
 const loaderEl = document.getElementById('loader');
 const loaderBar = document.getElementById('loader-bar');
 const loaderText = document.getElementById('loader-text');
@@ -35,7 +32,7 @@ const loaderInterval = setInterval(() => {
     setTimeout(() => {
       loaderEl.classList.add('hidden');
       document.body.style.overflow = 'auto';
-      // Kick off hero entrance animations after loader hides
+      
       playHeroEntrance();
     }, 600);
   } else {
@@ -48,12 +45,12 @@ const loaderInterval = setInterval(() => {
   loaderBar.style.width = progress + '%';
 }, 80);
 
-// Prevent scroll during loading
+
 document.body.style.overflow = 'hidden';
 
-// =============================================
-// CUSTOM CURSOR
-// =============================================
+
+
+
 const cursor = document.getElementById('cursor');
 const cursorTrail = document.getElementById('cursor-trail');
 
@@ -67,7 +64,7 @@ window.addEventListener('mousemove', (e) => {
   cursor.style.top = mouseY + 'px';
 });
 
-// Smooth trail
+
 function animateCursor() {
   trailX += (mouseX - trailX) * 0.12;
   trailY += (mouseY - trailY) * 0.12;
@@ -77,9 +74,9 @@ function animateCursor() {
 }
 animateCursor();
 
-// =============================================
-// NAVIGATION
-// =============================================
+
+
+
 const nav = document.getElementById('main-nav');
 const hamburger = document.getElementById('hamburger');
 const mobileMenu = document.getElementById('mobile-menu');
@@ -88,7 +85,7 @@ const mobileLinks = document.querySelectorAll('.mobile-link');
 window.addEventListener('scroll', () => {
   nav.classList.toggle('scrolled', window.scrollY > 60);
 
-  // Highlight active nav link
+  
   const sections = document.querySelectorAll('section[id]');
   let current = '';
   sections.forEach(sec => {
@@ -119,9 +116,9 @@ mobileLinks.forEach(link => {
   });
 });
 
-// =============================================
-// THREE.JS UTILITIES
-// =============================================
+
+
+
 function createRenderer(canvas, alpha = true) {
   const renderer = new THREE.WebGLRenderer({ canvas, alpha, antialias: true });
   renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
@@ -140,9 +137,9 @@ function resizeRenderer(renderer, camera, canvas) {
   }
 }
 
-// =============================================
-// SCENE 1: HERO — Particle Field + Floating Rings
-// =============================================
+
+
+
 function initHeroScene() {
   const canvas = document.getElementById('hero-canvas');
   const scene = new THREE.Scene();
@@ -150,7 +147,7 @@ function initHeroScene() {
   camera.position.z = 60;
   const renderer = createRenderer(canvas);
 
-  // Stars / Particle field
+  
   const starGeo = new THREE.BufferGeometry();
   const starCount = 4000;
   const positions = new Float32Array(starCount * 3);
@@ -163,11 +160,11 @@ function initHeroScene() {
     positions[i * 3 + 2] = (Math.random() - 0.5) * 200;
     sizes[i] = Math.random() * 2 + 0.5;
 
-    // Cyan/Purple gradient across stars
+    
     const t = Math.random();
-    colors[i * 3] = 0 + t * 0.3;       // R
-    colors[i * 3 + 1] = 0.8 - t * 0.5; // G
-    colors[i * 3 + 2] = 1.0;            // B
+    colors[i * 3] = 0 + t * 0.3;       
+    colors[i * 3 + 1] = 0.8 - t * 0.5; 
+    colors[i * 3 + 2] = 1.0;            
   }
 
   starGeo.setAttribute('position', new THREE.BufferAttribute(positions, 3));
@@ -185,7 +182,7 @@ function initHeroScene() {
   const stars = new THREE.Points(starGeo, starMat);
   scene.add(stars);
 
-  // Floating wireframe torus rings
+  
   const rings = [];
   const torusColors = [0x00d4ff, 0x7b2fff, 0xff2d78, 0x0066ff];
 
@@ -211,7 +208,7 @@ function initHeroScene() {
     rings.push(torus);
   }
 
-  // Central icosahedron
+  
   const icoGeo = new THREE.IcosahedronGeometry(6, 1);
   const icoMat = new THREE.MeshBasicMaterial({
     color: 0x00d4ff,
@@ -223,7 +220,7 @@ function initHeroScene() {
   ico.position.set(20, 0, -10);
   scene.add(ico);
 
-  // Mouse parallax
+  
   let targetRotX = 0, targetRotY = 0;
   window.addEventListener('mousemove', (e) => {
     targetRotY = (e.clientX / window.innerWidth - 0.5) * 0.3;
@@ -234,21 +231,21 @@ function initHeroScene() {
   function animate(time) {
     frameId = requestAnimationFrame(animate);
 
-    // Smooth mouse follow
+    
     scene.rotation.y += (targetRotY - scene.rotation.y) * 0.05;
     scene.rotation.x += (targetRotX - scene.rotation.x) * 0.05;
 
-    // Spin rings
+    
     rings.forEach(ring => {
       if (ring.userData.axis === 'x') ring.rotation.x += ring.userData.speed;
       else ring.rotation.y += ring.userData.speed;
       ring.rotation.z += ring.userData.speed * 0.3;
     });
 
-    // Rotate stars slowly
+    
     stars.rotation.y += 0.0003;
 
-    // Bounce ico
+    
     ico.rotation.x += 0.003;
     ico.rotation.y += 0.005;
     ico.position.y = Math.sin(time * 0.001) * 3;
@@ -258,7 +255,7 @@ function initHeroScene() {
   }
   animate(0);
 
-  // Scroll-driven: fade out hero canvas
+  
   ScrollTrigger.create({
     trigger: '#hero',
     start: 'top top',
@@ -277,9 +274,9 @@ function initHeroScene() {
   };
 }
 
-// =============================================
-// SCENE 2: ABOUT — Rotating DNA Helix
-// =============================================
+
+
+
 function initAboutScene() {
   const canvas = document.getElementById('about-cube-canvas');
   const scene = new THREE.Scene();
@@ -290,7 +287,7 @@ function initAboutScene() {
   const group = new THREE.Group();
   scene.add(group);
 
-  // Build DNA double helix
+  
   const helixPoints1 = [];
   const helixPoints2 = [];
   const numPoints = 80;
@@ -316,7 +313,7 @@ function initAboutScene() {
   group.add(new THREE.Mesh(tubeGeo1, mat1));
   group.add(new THREE.Mesh(tubeGeo2, mat2));
 
-  // Base pairs (rungs)
+  
   for (let i = 0; i < numPoints; i += 4) {
     const p1 = helixPoints1[i];
     const p2 = helixPoints2[i];
@@ -334,7 +331,7 @@ function initAboutScene() {
     rung.rotateX(Math.PI / 2);
     group.add(rung);
 
-    // Node spheres at helix points
+    
     const sphereGeo = new THREE.SphereGeometry(0.3, 8, 8);
     const sphereMat = new THREE.MeshBasicMaterial({ color: i % 8 === 0 ? 0xff2d78 : 0xffd700 });
     const s1 = new THREE.Mesh(sphereGeo, sphereMat);
@@ -342,7 +339,7 @@ function initAboutScene() {
     group.add(s1);
   }
 
-  // Mouse interaction for cube
+  
   let isHovering = false;
   canvas.addEventListener('mouseenter', () => { isHovering = true; });
   canvas.addEventListener('mouseleave', () => { isHovering = false; });
@@ -366,9 +363,9 @@ function initAboutScene() {
   };
 }
 
-// =============================================
-// SCENE 3: EVENTS — Floating Particles
-// =============================================
+
+
+
 function initEventsScene() {
   const canvas = document.getElementById('events-canvas');
   const scene = new THREE.Scene();
@@ -376,7 +373,7 @@ function initEventsScene() {
   camera.position.z = 50;
   const renderer = createRenderer(canvas);
 
-  // Floating geometric shapes
+  
   const shapes = [];
   const geometries = [
     new THREE.OctahedronGeometry(1.5, 0),
@@ -442,9 +439,9 @@ function initEventsScene() {
   };
 }
 
-// =============================================
-// SCENE 4: GLOBE — Interactive 3D Earth
-// =============================================
+
+
+
 function initGlobeScene() {
   const canvas = document.getElementById('globe-canvas');
   const scene = new THREE.Scene();
@@ -453,24 +450,24 @@ function initGlobeScene() {
   camera.lookAt(0, 0, 0);
   const renderer = createRenderer(canvas);
 
-  // Globe sphere
+  
   const globeGeo = new THREE.SphereGeometry(14, 64, 64);
 
-  // Create canvas texture for the globe
+  
   const texCanvas = document.createElement('canvas');
   texCanvas.width = 1024;
   texCanvas.height = 512;
   const ctx = texCanvas.getContext('2d');
 
-  // Background
+  
   ctx.fillStyle = '#020408';
   ctx.fillRect(0, 0, 1024, 512);
 
-  // Draw grid lines (latitude/longitude)
+  
   ctx.strokeStyle = 'rgba(0, 212, 255, 0.12)';
   ctx.lineWidth = 1;
 
-  // Latitude lines
+  
   for (let lat = -80; lat <= 80; lat += 20) {
     const y = (lat + 90) / 180 * 512;
     ctx.beginPath();
@@ -479,7 +476,7 @@ function initGlobeScene() {
     ctx.stroke();
   }
 
-  // Longitude lines
+  
   for (let lon = 0; lon <= 360; lon += 20) {
     const x = lon / 360 * 1024;
     ctx.beginPath();
@@ -488,7 +485,7 @@ function initGlobeScene() {
     ctx.stroke();
   }
 
-  // Plot glowing dots at major tech hubs
+  
   const techCities = [
     { name: 'Mumbai', lat: 18.96, lon: 72.82 },
     { name: 'New York', lat: 40.71, lon: -74.00 },
@@ -514,7 +511,7 @@ function initGlobeScene() {
     const x = (city.lon + 180) / 360 * 1024;
     const y = (90 - city.lat) / 180 * 512;
 
-    // Glow
+    
     const grad = ctx.createRadialGradient(x, y, 0, x, y, 10);
     grad.addColorStop(0, 'rgba(0, 212, 255, 0.9)');
     grad.addColorStop(1, 'rgba(0, 212, 255, 0)');
@@ -523,7 +520,7 @@ function initGlobeScene() {
     ctx.fillStyle = grad;
     ctx.fill();
 
-    // Center dot
+    
     ctx.beginPath();
     ctx.arc(x, y, 2.5, 0, Math.PI * 2);
     ctx.fillStyle = '#00d4ff';
@@ -540,7 +537,7 @@ function initGlobeScene() {
   const globe = new THREE.Mesh(globeGeo, globeMat);
   scene.add(globe);
 
-  // Outer glow shell
+  
   const glowGeo = new THREE.SphereGeometry(15, 64, 64);
   const glowMat = new THREE.MeshBasicMaterial({
     color: 0x00d4ff,
@@ -550,7 +547,7 @@ function initGlobeScene() {
   });
   scene.add(new THREE.Mesh(glowGeo, glowMat));
 
-  // Atmosphere ring
+  
   const atmGeo = new THREE.SphereGeometry(14.8, 64, 64);
   const atmMat = new THREE.MeshBasicMaterial({
     color: 0x0066ff,
@@ -560,7 +557,7 @@ function initGlobeScene() {
   });
   scene.add(new THREE.Mesh(atmGeo, atmMat));
 
-  // Orbit rings around globe
+  
   const orbitData = [
     { radius: 17, opacity: 0.2, rotX: 0.3, rotY: 0 },
     { radius: 19, opacity: 0.12, rotX: 1.2, rotY: 0.5 },
@@ -580,7 +577,7 @@ function initGlobeScene() {
     scene.add(o);
   });
 
-  // Stars background
+  
   const bgStarGeo = new THREE.BufferGeometry();
   const bgStarCount = 2000;
   const bgPositions = new Float32Array(bgStarCount * 3);
@@ -593,7 +590,7 @@ function initGlobeScene() {
   const bgStarMat = new THREE.PointsMaterial({ color: 0x888888, size: 0.6, transparent: true, opacity: 0.5 });
   scene.add(new THREE.Points(bgStarGeo, bgStarMat));
 
-  // Drag interaction
+  
   let isDragging = false;
   let prevMouse = { x: 0, y: 0 };
   let velocity = { x: 0, y: 0 };
@@ -641,7 +638,7 @@ function initGlobeScene() {
   }
   animate();
 
-  // Scroll-driven tilt
+  
   ScrollTrigger.create({
     trigger: '#globe-section',
     start: 'top bottom',
@@ -659,9 +656,9 @@ function initGlobeScene() {
   };
 }
 
-// =============================================
-// SCENE 5: SPEAKERS — Abstract Wave
-// =============================================
+
+
+
 function initSpeakersScene() {
   const canvas = document.getElementById('speakers-canvas');
   const scene = new THREE.Scene();
@@ -670,7 +667,7 @@ function initSpeakersScene() {
   camera.lookAt(0, 0, 0);
   const renderer = createRenderer(canvas);
 
-  // Grid plane with wave effect
+  
   const gridSize = 40;
   const spacing = 3;
   const points = [];
@@ -698,7 +695,7 @@ function initSpeakersScene() {
   gridPoints.position.y = -10;
   scene.add(gridPoints);
 
-  // Floating orbs
+  
   const orbs = [];
   for (let i = 0; i < 8; i++) {
     const geo = new THREE.SphereGeometry(1.5 + Math.random() * 2, 16, 16);
@@ -728,7 +725,7 @@ function initSpeakersScene() {
     frameId = requestAnimationFrame(animate);
     time += 0.015;
 
-    // Wave the grid
+    
     for (let i = 0; i < gridSize; i++) {
       for (let j = 0; j < gridSize; j++) {
         const idx = i * gridSize + j;
@@ -740,7 +737,7 @@ function initSpeakersScene() {
     }
     posAttr.needsUpdate = true;
 
-    // Float orbs
+    
     orbs.forEach(o => {
       o.position.y = Math.sin(time * o.userData.speed + o.userData.phase) * 8;
       o.rotation.y += 0.005;
@@ -757,9 +754,9 @@ function initSpeakersScene() {
   };
 }
 
-// =============================================
-// SCENE 6: CONTACT — Neural Network
-// =============================================
+
+
+
 function initContactScene() {
   const canvas = document.getElementById('contact-canvas');
   const scene = new THREE.Scene();
@@ -770,7 +767,7 @@ function initContactScene() {
   const nodes = [];
   const nodeCount = 60;
 
-  // Create nodes
+  
   for (let i = 0; i < nodeCount; i++) {
     const geo = new THREE.SphereGeometry(0.5, 8, 8);
     const mat = new THREE.MeshBasicMaterial({
@@ -793,7 +790,7 @@ function initContactScene() {
     nodes.push(node);
   }
 
-  // Lines connecting close nodes
+  
   const linesMesh = [];
 
   function updateLines() {
@@ -831,7 +828,7 @@ function initContactScene() {
     nodes.forEach(node => {
       node.position.add(node.userData.velocity);
 
-      // Bounce off boundaries
+      
       if (Math.abs(node.position.x) > 60) node.userData.velocity.x *= -1;
       if (Math.abs(node.position.y) > 40) node.userData.velocity.y *= -1;
     });
@@ -850,12 +847,12 @@ function initContactScene() {
   };
 }
 
-// =============================================
-// GSAP SCROLL ANIMATIONS
-// =============================================
+
+
+
 function initScrollAnimations() {
 
-  // Hero entrance animation (called after loader)
+  
   window.playHeroEntrance = function() {
     const tl = gsap.timeline({ delay: 0.1 });
     tl.to('.hero-eyebrow', { opacity: 1, y: 0, duration: 0.8, ease: 'power3.out' })
@@ -865,7 +862,7 @@ function initScrollAnimations() {
       .to('.hero-btns', { opacity: 1, y: 0, duration: 0.7, ease: 'power2.out' }, '-=0.4')
       .to('.hero-stats', { opacity: 1, y: 0, duration: 0.8, ease: 'power2.out' }, '-=0.3');
 
-    // Counter animation
+    
     const counters = document.querySelectorAll('.stat-num');
     counters.forEach(counter => {
       const target = parseInt(counter.getAttribute('data-target'));
@@ -882,7 +879,7 @@ function initScrollAnimations() {
     });
   };
 
-  // About section
+  
   ScrollTrigger.create({
     trigger: '.about-container',
     start: 'top 80%',
@@ -897,7 +894,7 @@ function initScrollAnimations() {
     once: true
   });
 
-  // Timeline items
+  
   ScrollTrigger.create({
     trigger: '.timeline',
     start: 'top 80%',
@@ -913,7 +910,7 @@ function initScrollAnimations() {
     once: true
   });
 
-  // Events
+  
   ScrollTrigger.create({
     trigger: '.events-grid',
     start: 'top 80%',
@@ -930,7 +927,7 @@ function initScrollAnimations() {
     once: true
   });
 
-  // Globe text
+  
   ScrollTrigger.create({
     trigger: '.globe-overlay',
     start: 'top 80%',
@@ -944,7 +941,7 @@ function initScrollAnimations() {
     once: true
   });
 
-  // Speakers
+  
   ScrollTrigger.create({
     trigger: '.speakers-container',
     start: 'top 80%',
@@ -957,7 +954,7 @@ function initScrollAnimations() {
     once: true
   });
 
-  // Contact
+  
   ScrollTrigger.create({
     trigger: '.contact-content',
     start: 'top 80%',
@@ -972,7 +969,7 @@ function initScrollAnimations() {
     once: true
   });
 
-  // Parallax on hero title
+  
   gsap.to('.hero-title', {
     yPercent: 30,
     ease: 'none',
@@ -997,9 +994,9 @@ function initScrollAnimations() {
   });
 }
 
-// =============================================
-// SPEAKERS CAROUSEL
-// =============================================
+
+
+
 function initSpeakersCarousel() {
   const track = document.getElementById('speakers-track');
   const prevBtn = document.getElementById('spk-prev');
@@ -1008,7 +1005,7 @@ function initSpeakersCarousel() {
   const cards = track.querySelectorAll('.speaker-card');
   let current = 0;
 
-  // Create dots
+  
   cards.forEach((_, i) => {
     const dot = document.createElement('button');
     dot.className = 'spk-dot' + (i === 0 ? ' active' : '');
@@ -1036,7 +1033,7 @@ function initSpeakersCarousel() {
   prevBtn.addEventListener('click', () => goTo(current - 1));
   nextBtn.addEventListener('click', () => goTo(current + 1));
 
-  // Auto advance
+  
   let autoPlay = setInterval(() => goTo((current + 1) % cards.length), 5000);
   track.addEventListener('mouseenter', () => clearInterval(autoPlay));
   track.addEventListener('mouseleave', () => {
@@ -1044,9 +1041,9 @@ function initSpeakersCarousel() {
   });
 }
 
-// =============================================
-// CONTACT FORM
-// =============================================
+
+
+
 function initContactForm() {
   const form = document.getElementById('contact-form');
   const success = document.getElementById('contact-success');
@@ -1057,7 +1054,7 @@ function initContactForm() {
     btn.textContent = 'Sending...';
     btn.disabled = true;
 
-    // Simulate async
+    
     setTimeout(() => {
       gsap.to(form, {
         opacity: 0,
@@ -1073,9 +1070,9 @@ function initContactForm() {
   });
 }
 
-// =============================================
-// SMOOTH ANCHOR SCROLL
-// =============================================
+
+
+
 function initSmoothScroll() {
   document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     anchor.addEventListener('click', (e) => {
@@ -1092,9 +1089,9 @@ function initSmoothScroll() {
   });
 }
 
-// =============================================
-// EVENT CARD HOVER — Magnetic effect
-// =============================================
+
+
+
 function initCardMagnetics() {
   document.querySelectorAll('.event-card, .speaker-card').forEach(card => {
     card.addEventListener('mousemove', (e) => {
@@ -1122,9 +1119,9 @@ function initCardMagnetics() {
   });
 }
 
-// =============================================
-// SCROLL PROGRESS BAR
-// =============================================
+
+
+
 function initScrollProgress() {
   const bar = document.createElement('div');
   bar.style.cssText = `
@@ -1141,9 +1138,9 @@ function initScrollProgress() {
   }, { passive: true });
 }
 
-// =============================================
-// INIT EVERYTHING
-// =============================================
+
+
+
 function init() {
   initScrollAnimations();
   initSpeakersCarousel();
@@ -1152,7 +1149,7 @@ function init() {
   initCardMagnetics();
   initScrollProgress();
 
-  // Init Three.js scenes (order matters for performance)
+  
   initHeroScene();
   initAboutScene();
   initEventsScene();
@@ -1161,7 +1158,7 @@ function init() {
   initContactScene();
 }
 
-// Start after DOM is ready
+
 if (document.readyState === 'loading') {
   document.addEventListener('DOMContentLoaded', init);
 } else {
