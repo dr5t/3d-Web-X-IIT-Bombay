@@ -653,7 +653,6 @@ body:has(button:hover) .cursor-trail {
   align-items: center;
 }
 
-.about-text-col {}
 
 .about-title { margin-bottom: 24px; }
 
@@ -1357,6 +1356,7 @@ body:has(button:hover) .cursor-trail {
   transition: all var(--transition);
   outline: none;
   -webkit-appearance: none;
+  appearance: none;
 }
 
 .form-input:focus, .form-input:not(:placeholder-shown) {
