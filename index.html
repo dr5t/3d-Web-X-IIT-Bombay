@@ -1,0 +1,709 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Techfest 2025 — IIT Bombay | Asia's Largest Science &amp; Technology Festival</title>
+  <meta name="description" content="Techfest, IIT Bombay's annual Science and Technology Festival — Asia's largest. Explore 3D interactive experiences, competitions, workshops, and more." />
+  <meta property="og:title" content="Techfest 2025 — IIT Bombay" />
+  <meta property="og:description" content="Asia's Largest Science &amp; Technology Festival" />
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Inter:wght@300;400;500;600&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+
+  <!-- Three.js -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <!-- GSAP -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollToPlugin.min.js"></script>
+
+  <!-- Inline SVG sprite definitions (hidden) -->
+  <svg xmlns="http://www.w3.org/2000/svg" style="display:none" aria-hidden="true">
+    <!-- Robowars / robot -->
+    <symbol id="icon-robot" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+      <rect x="3" y="11" width="18" height="10" rx="2"/>
+      <path d="M8 11V7a4 4 0 0 1 8 0v4"/>
+      <circle cx="9" cy="16" r="1.5" fill="currentColor" stroke="none"/>
+      <circle cx="15" cy="16" r="1.5" fill="currentColor" stroke="none"/>
+      <path d="M12 3v2M9 21h6"/>
+    </symbol>
+    <!-- AI / neural -->
+    <symbol id="icon-ai" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="12" cy="12" r="3"/>
+      <path d="M12 3v3M12 18v3M3 12h3M18 12h3"/>
+      <path d="M5.636 5.636l2.121 2.121M16.243 16.243l2.121 2.121M5.636 18.364l2.121-2.121M16.243 7.757l2.121-2.121"/>
+      <circle cx="12" cy="12" r="8" stroke-dasharray="2 3"/>
+    </symbol>
+    <!-- Space / rocket -->
+    <symbol id="icon-space" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M12 2C12 2 7 6 7 12v3l-2 2v2h3l2-2h4l2 2h3v-2l-2-2v-3C19 6 12 2 12 2z"/>
+      <circle cx="12" cy="10" r="2"/>
+      <path d="M9 21c0-1.657 1.343-3 3-3s3 1.343 3 3"/>
+    </symbol>
+    <!-- Quantum / atom -->
+    <symbol id="icon-quantum" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="12" cy="12" r="2" fill="currentColor" stroke="none"/>
+      <ellipse cx="12" cy="12" rx="10" ry="4"/>
+      <ellipse cx="12" cy="12" rx="10" ry="4" transform="rotate(60 12 12)"/>
+      <ellipse cx="12" cy="12" rx="10" ry="4" transform="rotate(120 12 12)"/>
+    </symbol>
+    <!-- Drone -->
+    <symbol id="icon-drone" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+      <rect x="9" y="9" width="6" height="6" rx="1"/>
+      <path d="M9 9L5 5M15 9l4-4M9 15l-4 4M15 15l4 4"/>
+      <circle cx="4" cy="4" r="2"/>
+      <circle cx="20" cy="4" r="2"/>
+      <circle cx="4" cy="20" r="2"/>
+      <circle cx="20" cy="20" r="2"/>
+    </symbol>
+    <!-- Gaming / controller -->
+    <symbol id="icon-gaming" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M6 11h4M8 9v4M15 12h2M17 12h2M7 7H3.5a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2H4l2 2h12l2-2h.5a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2H17"/>
+      <path d="M7 7c0-1.1.9-2 2-2h6a2 2 0 0 1 2 2"/>
+    </symbol>
+    <!-- Innovation / zap -->
+    <symbol id="icon-zap" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+      <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
+    </symbol>
+    <!-- Intellect / brain / cpu -->
+    <symbol id="icon-cpu" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+      <rect x="4" y="4" width="16" height="16" rx="2"/>
+      <rect x="9" y="9" width="6" height="6"/>
+      <path d="M9 1v3M15 1v3M9 20v3M15 20v3M1 9h3M1 15h3M20 9h3M20 15h3"/>
+    </symbol>
+    <!-- Impact / target -->
+    <symbol id="icon-target" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="12" cy="12" r="10"/>
+      <circle cx="12" cy="12" r="6"/>
+      <circle cx="12" cy="12" r="2" fill="currentColor" stroke="none"/>
+    </symbol>
+    <!-- Location pin -->
+    <symbol id="icon-pin" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+      <circle cx="12" cy="10" r="3"/>
+    </symbol>
+    <!-- Calendar -->
+    <symbol id="icon-calendar" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+      <rect x="3" y="4" width="18" height="18" rx="2"/>
+      <path d="M16 2v4M8 2v4M3 10h18"/>
+      <path d="M8 14h.01M12 14h.01M16 14h.01M8 18h.01M12 18h.01"/>
+    </symbol>
+    <!-- Globe -->
+    <symbol id="icon-globe" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="12" cy="12" r="10"/>
+      <path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+    </symbol>
+    <!-- Email -->
+    <symbol id="icon-mail" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+      <rect x="2" y="4" width="20" height="16" rx="2"/>
+      <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/>
+    </symbol>
+    <!-- Twitter / X -->
+    <symbol id="icon-twitter" viewBox="0 0 24 24" fill="currentColor">
+      <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+    </symbol>
+    <!-- Instagram -->
+    <symbol id="icon-instagram" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+      <rect x="2" y="2" width="20" height="20" rx="5"/>
+      <circle cx="12" cy="12" r="4"/>
+      <circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/>
+    </symbol>
+    <!-- LinkedIn -->
+    <symbol id="icon-linkedin" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/>
+      <rect x="2" y="9" width="4" height="12"/>
+      <circle cx="4" cy="4" r="2"/>
+    </symbol>
+    <!-- YouTube -->
+    <symbol id="icon-youtube" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M22.54 6.42a2.78 2.78 0 0 0-1.95-1.96C18.88 4 12 4 12 4s-6.88 0-8.59.46A2.78 2.78 0 0 0 1.46 6.42 29 29 0 0 0 1 12a29 29 0 0 0 .46 5.58 2.78 2.78 0 0 0 1.95 1.96C5.12 20 12 20 12 20s6.88 0 8.59-.46a2.78 2.78 0 0 0 1.95-1.96A29 29 0 0 0 23 12a29 29 0 0 0-.46-5.58z"/>
+      <polygon points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02" fill="currentColor" stroke="none"/>
+    </symbol>
+    <!-- Check / success -->
+    <symbol id="icon-check-circle" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+      <polyline points="22 4 12 14.01 9 11.01"/>
+    </symbol>
+    <!-- Arrow right -->
+    <symbol id="icon-arrow-right" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M5 12h14M12 5l7 7-7 7"/>
+    </symbol>
+    <!-- Arrow left -->
+    <symbol id="icon-arrow-left" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M19 12H5M12 19l-7-7 7-7"/>
+    </symbol>
+  </svg>
+
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- Custom Cursor -->
+  <div class="cursor" id="cursor"></div>
+  <div class="cursor-trail" id="cursor-trail"></div>
+
+  <!-- Loading Screen -->
+  <div class="loader" id="loader">
+    <div class="loader-inner">
+      <div class="loader-logo">
+        <span class="loader-tf">TF</span>
+        <span class="loader-year">2025</span>
+      </div>
+      <div class="loader-bar-wrap">
+        <div class="loader-bar" id="loader-bar"></div>
+      </div>
+      <div class="loader-text" id="loader-text">INITIALIZING UNIVERSE...</div>
+    </div>
+  </div>
+
+  <!-- Navigation -->
+  <nav class="nav" id="main-nav">
+    <div class="nav-logo">
+      <span class="nav-tf">TECH</span><span class="nav-fest">FEST</span>
+      <span class="nav-year-badge">2025</span>
+    </div>
+    <ul class="nav-links">
+      <li><a href="#hero" class="nav-link">Home</a></li>
+      <li><a href="#about" class="nav-link">About</a></li>
+      <li><a href="#events" class="nav-link">Events</a></li>
+      <li><a href="#speakers" class="nav-link">Speakers</a></li>
+      <li><a href="#contact" class="nav-link">Contact</a></li>
+    </ul>
+    <a href="#events" class="nav-cta">Register Now</a>
+    <button class="nav-hamburger" id="hamburger" aria-label="Toggle menu">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+
+  <!-- Mobile Menu -->
+  <div class="mobile-menu" id="mobile-menu">
+    <ul>
+      <li><a href="#hero" class="mobile-link">Home</a></li>
+      <li><a href="#about" class="mobile-link">About</a></li>
+      <li><a href="#events" class="mobile-link">Events</a></li>
+      <li><a href="#speakers" class="mobile-link">Speakers</a></li>
+      <li><a href="#contact" class="mobile-link">Contact</a></li>
+    </ul>
+  </div>
+
+  <!-- ==================== HERO ==================== -->
+  <section class="hero" id="hero">
+    <canvas id="hero-canvas"></canvas>
+    <div class="hero-content">
+      <div class="hero-eyebrow">
+        <span class="eyebrow-dot"></span>
+        Asia's Largest Science &amp; Technology Festival
+        <span class="eyebrow-dot"></span>
+      </div>
+      <h1 class="hero-title" id="hero-title">
+        <span class="title-line">TECH</span>
+        <span class="title-line title-line-accent">FEST</span>
+      </h1>
+      <div class="hero-sub">
+        <span class="hero-iit">IIT BOMBAY</span>
+        <span class="hero-divider">|</span>
+        <span class="hero-date">JAN 2025</span>
+      </div>
+      <p class="hero-desc">Where Innovation Meets Imagination. Three days of cutting-edge technology, brilliant minds, and extraordinary experiences.</p>
+      <div class="hero-btns">
+        <a href="#events" class="btn btn-primary" id="explore-btn">
+          <span>Explore Events</span>
+          <svg aria-hidden="true"><use href="#icon-arrow-right"/></svg>
+        </a>
+        <a href="#about" class="btn btn-ghost">
+          <span>Learn More</span>
+        </a>
+      </div>
+      <div class="hero-stats">
+        <div class="stat-item">
+          <span class="stat-num" data-target="190">0</span><span class="stat-plus">+</span>
+          <span class="stat-label">Countries</span>
+        </div>
+        <div class="stat-divider"></div>
+        <div class="stat-item">
+          <span class="stat-num" data-target="180000">0</span><span class="stat-plus">+</span>
+          <span class="stat-label">Participants</span>
+        </div>
+        <div class="stat-divider"></div>
+        <div class="stat-item">
+          <span class="stat-num" data-target="200">0</span><span class="stat-plus">+</span>
+          <span class="stat-label">Events</span>
+        </div>
+      </div>
+    </div>
+    <div class="hero-scroll-indicator" aria-hidden="true">
+      <div class="scroll-line"></div>
+      <span>SCROLL</span>
+    </div>
+  </section>
+
+  <!-- ==================== ABOUT ==================== -->
+  <section class="about" id="about">
+    <canvas id="about-canvas"></canvas>
+    <div class="about-container">
+      <div class="about-text-col">
+        <div class="section-tag">About</div>
+        <h2 class="section-title about-title">
+          Redefining the<br/><span class="gradient-text">Future of Tech</span>
+        </h2>
+        <p class="about-body">Techfest is IIT Bombay's annual science and technology festival, the largest of its kind in Asia. Since 1998, we've brought together over 180,000 participants from 190+ countries in an electrifying celebration of human ingenuity.</p>
+        <p class="about-body">From quantum computing to space exploration, from AI to robotics — Techfest is where the next generation of world-changers come to learn, compete, and be inspired.</p>
+        <div class="about-pillars">
+          <div class="pillar">
+            <div class="pillar-icon">
+              <svg aria-hidden="true"><use href="#icon-zap"/></svg>
+            </div>
+            <div class="pillar-text">
+              <h4>Innovation</h4>
+              <p>Push boundaries beyond the ordinary</p>
+            </div>
+          </div>
+          <div class="pillar">
+            <div class="pillar-icon">
+              <svg aria-hidden="true"><use href="#icon-cpu"/></svg>
+            </div>
+            <div class="pillar-text">
+              <h4>Intellect</h4>
+              <p>Challenge the brightest minds globally</p>
+            </div>
+          </div>
+          <div class="pillar">
+            <div class="pillar-icon">
+              <svg aria-hidden="true"><use href="#icon-target"/></svg>
+            </div>
+            <div class="pillar-text">
+              <h4>Impact</h4>
+              <p>Build solutions that change the world</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="about-visual-col">
+        <div class="about-3d-wrapper" id="about-3d-wrapper">
+          <canvas id="about-cube-canvas"></canvas>
+          <div class="about-glow-ring"></div>
+        </div>
+      </div>
+    </div>
+    <div class="timeline-section">
+      <h3 class="timeline-heading">Journey Through <span class="gradient-text">Time</span></h3>
+      <div class="timeline">
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="timeline-content">
+            <span class="timeline-year">1998</span>
+            <h4>The Beginning</h4>
+            <p>Techfest was founded at IIT Bombay with a vision to promote technology culture</p>
+          </div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="timeline-content">
+            <span class="timeline-year">2005</span>
+            <h4>Going Global</h4>
+            <p>International participation surpassed 50 countries for the first time</p>
+          </div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="timeline-content">
+            <span class="timeline-year">2012</span>
+            <h4>Asia's Largest</h4>
+            <p>Recognized as Asia's largest science &amp; technology festival</p>
+          </div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-dot active"></div>
+          <div class="timeline-content">
+            <span class="timeline-year">2025</span>
+            <h4>Next Frontier</h4>
+            <p>Techfest 2025 — Beyond Boundaries. Into the Unknown.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== EVENTS ==================== -->
+  <section class="events" id="events">
+    <canvas id="events-canvas"></canvas>
+    <div class="events-container">
+      <div class="section-header">
+        <div class="section-tag">Events</div>
+        <h2 class="section-title">
+          200+ <span class="gradient-text">Epic Events</span>
+        </h2>
+        <p class="section-sub">From robotics to astrophysics, find your challenge</p>
+      </div>
+      <div class="events-grid">
+
+        <div class="event-card" tabindex="0">
+          <div class="event-card-bg"></div>
+          <div class="event-card-glow"></div>
+          <div class="event-icon-wrap">
+            <svg class="event-icon" aria-hidden="true"><use href="#icon-robot"/></svg>
+          </div>
+          <div class="event-card-content">
+            <span class="event-tag">Competition</span>
+            <h3>Robowars</h3>
+            <p>Build battle-ready robots and clash for supremacy in the ultimate machine combat arena</p>
+            <div class="event-meta">
+              <span class="event-prize">₹5L Prize Pool</span>
+              <span class="event-participants">500+ Teams</span>
+            </div>
+          </div>
+          <a href="#contact" class="event-link">
+            Register
+            <svg aria-hidden="true"><use href="#icon-arrow-right"/></svg>
+          </a>
+        </div>
+
+        <div class="event-card" tabindex="0">
+          <div class="event-card-bg"></div>
+          <div class="event-card-glow"></div>
+          <div class="event-icon-wrap">
+            <svg class="event-icon" aria-hidden="true"><use href="#icon-ai"/></svg>
+          </div>
+          <div class="event-card-content">
+            <span class="event-tag">Hackathon</span>
+            <h3>AI Odyssey</h3>
+            <p>36-hour hackathon pushing the limits of artificial intelligence and machine learning</p>
+            <div class="event-meta">
+              <span class="event-prize">₹3L Prize Pool</span>
+              <span class="event-participants">1000+ Coders</span>
+            </div>
+          </div>
+          <a href="#contact" class="event-link">
+            Register
+            <svg aria-hidden="true"><use href="#icon-arrow-right"/></svg>
+          </a>
+        </div>
+
+        <div class="event-card event-card-wide" tabindex="0">
+          <div class="event-card-bg"></div>
+          <div class="event-card-glow"></div>
+          <div class="event-icon-wrap">
+            <svg class="event-icon" aria-hidden="true"><use href="#icon-space"/></svg>
+          </div>
+          <div class="event-card-content">
+            <span class="event-tag">Showcase</span>
+            <h3>Space Odyssey</h3>
+            <p>Explore the final frontier through cutting-edge space technology demonstrations, rocket launches, and astrophysics challenges</p>
+            <div class="event-meta">
+              <span class="event-prize">₹4L Prize Pool</span>
+              <span class="event-participants">300+ Projects</span>
+            </div>
+          </div>
+          <a href="#contact" class="event-link">
+            Register
+            <svg aria-hidden="true"><use href="#icon-arrow-right"/></svg>
+          </a>
+        </div>
+
+        <div class="event-card" tabindex="0">
+          <div class="event-card-bg"></div>
+          <div class="event-card-glow"></div>
+          <div class="event-icon-wrap">
+            <svg class="event-icon" aria-hidden="true"><use href="#icon-quantum"/></svg>
+          </div>
+          <div class="event-card-content">
+            <span class="event-tag">Workshop</span>
+            <h3>Quantum Lab</h3>
+            <p>Hands-on quantum computing workshops with industry experts from IBM and Google</p>
+            <div class="event-meta">
+              <span class="event-prize">Free Entry</span>
+              <span class="event-participants">Limited Seats</span>
+            </div>
+          </div>
+          <a href="#contact" class="event-link">
+            Register
+            <svg aria-hidden="true"><use href="#icon-arrow-right"/></svg>
+          </a>
+        </div>
+
+        <div class="event-card" tabindex="0">
+          <div class="event-card-bg"></div>
+          <div class="event-card-glow"></div>
+          <div class="event-icon-wrap">
+            <svg class="event-icon" aria-hidden="true"><use href="#icon-drone"/></svg>
+          </div>
+          <div class="event-card-content">
+            <span class="event-tag">Competition</span>
+            <h3>Drone Racing</h3>
+            <p>FPV drone racing through obstacle courses at breakneck speeds with real-time leaderboards</p>
+            <div class="event-meta">
+              <span class="event-prize">₹2L Prize Pool</span>
+              <span class="event-participants">200+ Pilots</span>
+            </div>
+          </div>
+          <a href="#contact" class="event-link">
+            Register
+            <svg aria-hidden="true"><use href="#icon-arrow-right"/></svg>
+          </a>
+        </div>
+
+        <div class="event-card event-card-wide" tabindex="0">
+          <div class="event-card-bg"></div>
+          <div class="event-card-glow"></div>
+          <div class="event-icon-wrap">
+            <svg class="event-icon" aria-hidden="true"><use href="#icon-gaming"/></svg>
+          </div>
+          <div class="event-card-content">
+            <span class="event-tag">E-Sports</span>
+            <h3>Pixel Wars</h3>
+            <p>E-Sports tournament with CS2, Valorant, and custom game dev challenges judged by industry pros</p>
+            <div class="event-meta">
+              <span class="event-prize">₹6L Prize Pool</span>
+              <span class="event-participants">2000+ Players</span>
+            </div>
+          </div>
+          <a href="#contact" class="event-link">
+            Register
+            <svg aria-hidden="true"><use href="#icon-arrow-right"/></svg>
+          </a>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== GLOBE ==================== -->
+  <section class="globe-section" id="globe-section">
+    <canvas id="globe-canvas"></canvas>
+    <div class="globe-overlay">
+      <div class="globe-text">
+        <div class="section-tag">Global Reach</div>
+        <h2 class="section-title">
+          <span class="gradient-text">190+ Nations</span><br/>One Festival
+        </h2>
+        <p>Techfest unites brilliant minds from across the globe in a shared pursuit of innovation and excellence.</p>
+        <div class="globe-countries">
+          <div class="country-badge">
+            <svg class="country-flag" viewBox="0 0 20 14" aria-hidden="true"><rect width="20" height="14" fill="#B22234"/><rect y="1.08" width="20" height="1.08" fill="#fff"/><rect y="3.23" width="20" height="1.08" fill="#fff"/><rect y="5.38" width="20" height="1.08" fill="#fff"/><rect y="7.54" width="20" height="1.08" fill="#fff"/><rect y="9.69" width="20" height="1.08" fill="#fff"/><rect y="11.85" width="20" height="1.08" fill="#fff"/><rect width="8" height="7.54" fill="#3C3B6E"/></svg>
+            USA
+          </div>
+          <div class="country-badge">
+            <svg class="country-flag" viewBox="0 0 20 14" aria-hidden="true"><rect width="20" height="14" fill="#012169"/><path d="M0 0L20 14M20 0L0 14" stroke="#fff" stroke-width="2.8"/><path d="M0 0L20 14M20 0L0 14" stroke="#C8102E" stroke-width="1.6"/><path d="M10 0V14M0 7H20" stroke="#fff" stroke-width="4.6"/><path d="M10 0V14M0 7H20" stroke="#C8102E" stroke-width="2.8"/></svg>
+            UK
+          </div>
+          <div class="country-badge">
+            <svg class="country-flag" viewBox="0 0 20 14" aria-hidden="true"><rect width="6.67" height="14" fill="#000"/><rect x="6.67" width="6.67" height="14" fill="#D00"/><rect x="13.33" width="6.67" height="14" fill="#FFCE00"/></svg>
+            Germany
+          </div>
+          <div class="country-badge">
+            <svg class="country-flag" viewBox="0 0 20 14" aria-hidden="true"><rect width="20" height="14" fill="#BC002D"/><circle cx="7" cy="7" r="3.5" fill="#fff"/><circle cx="7.7" cy="7" r="3.5" fill="#BC002D"/></svg>
+            Japan
+          </div>
+          <div class="country-badge">
+            <svg class="country-flag" viewBox="0 0 20 14" aria-hidden="true"><rect width="20" height="14" fill="#DE2910"/><text x="3" y="9" font-size="5" fill="#FFDE00">★</text></svg>
+            China
+          </div>
+          <div class="country-badge country-badge-more">
+            <svg class="country-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><circle cx="8" cy="8" r="6"/><path d="M8 2a10 10 0 0 1 2.67 6A10 10 0 0 1 8 14 10 10 0 0 1 5.33 8 10 10 0 0 1 8 2z"/><path d="M2 8h12"/></svg>
+            +185 more
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== SPEAKERS ==================== -->
+  <section class="speakers" id="speakers">
+    <canvas id="speakers-canvas"></canvas>
+    <div class="speakers-container">
+      <div class="section-header">
+        <div class="section-tag">Keynotes</div>
+        <h2 class="section-title">
+          World-Class <span class="gradient-text">Speakers</span>
+        </h2>
+        <p class="section-sub">Visionaries shaping the future of technology</p>
+      </div>
+      <div class="speakers-track" id="speakers-track">
+        <div class="speaker-card">
+          <div class="speaker-glow"></div>
+          <div class="speaker-avatar">
+            <div class="speaker-avatar-inner" style="background: linear-gradient(135deg, #00d4ff, #7b2fff);">AS</div>
+          </div>
+          <div class="speaker-info">
+            <h3>Dr. Aisha Sharma</h3>
+            <span class="speaker-role">AI Research Lead — Google DeepMind</span>
+            <p>Pioneer in neural architecture design and large-scale AI systems</p>
+            <div class="speaker-tags"><span>Artificial Intelligence</span><span>Machine Learning</span></div>
+          </div>
+        </div>
+        <div class="speaker-card">
+          <div class="speaker-glow"></div>
+          <div class="speaker-avatar">
+            <div class="speaker-avatar-inner" style="background: linear-gradient(135deg, #ff6b35, #f7c59f);">MR</div>
+          </div>
+          <div class="speaker-info">
+            <h3>Prof. Marcus Reeves</h3>
+            <span class="speaker-role">Director — MIT Space Lab</span>
+            <p>Leading missions to Mars and developing next-gen propulsion systems</p>
+            <div class="speaker-tags"><span>Aerospace</span><span>Propulsion</span></div>
+          </div>
+        </div>
+        <div class="speaker-card">
+          <div class="speaker-glow"></div>
+          <div class="speaker-avatar">
+            <div class="speaker-avatar-inner" style="background: linear-gradient(135deg, #00ff87, #006666);">YK</div>
+          </div>
+          <div class="speaker-info">
+            <h3>Yuki Nakamura</h3>
+            <span class="speaker-role">CTO — Quantum Systems Inc.</span>
+            <p>Quantum cryptography and 1000-qubit processor development</p>
+            <div class="speaker-tags"><span>Quantum Computing</span><span>Cryptography</span></div>
+          </div>
+        </div>
+        <div class="speaker-card">
+          <div class="speaker-glow"></div>
+          <div class="speaker-avatar">
+            <div class="speaker-avatar-inner" style="background: linear-gradient(135deg, #ff0099, #493240);">EK</div>
+          </div>
+          <div class="speaker-info">
+            <h3>Elena Kovacs</h3>
+            <span class="speaker-role">CEO — NeuralBridge Labs</span>
+            <p>Brain-computer interface technology for therapeutic applications</p>
+            <div class="speaker-tags"><span>Neuroscience</span><span>BCI</span></div>
+          </div>
+        </div>
+        <div class="speaker-card">
+          <div class="speaker-glow"></div>
+          <div class="speaker-avatar">
+            <div class="speaker-avatar-inner" style="background: linear-gradient(135deg, #4facfe, #00f2fe);">RV</div>
+          </div>
+          <div class="speaker-info">
+            <h3>Raj Venkataraman</h3>
+            <span class="speaker-role">VP Engineering — SpaceX</span>
+            <p>Reusable rocket systems and Starship mission architecture</p>
+            <div class="speaker-tags"><span>Rockets</span><span>Engineering</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="speakers-nav">
+        <button class="spk-btn" id="spk-prev" aria-label="Previous speaker">
+          <svg aria-hidden="true"><use href="#icon-arrow-left"/></svg>
+        </button>
+        <div class="spk-dots" id="spk-dots"></div>
+        <button class="spk-btn" id="spk-next" aria-label="Next speaker">
+          <svg aria-hidden="true"><use href="#icon-arrow-right"/></svg>
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== CONTACT ==================== -->
+  <section class="contact" id="contact">
+    <canvas id="contact-canvas"></canvas>
+    <div class="contact-container">
+      <div class="contact-content">
+        <div class="section-tag">Join Us</div>
+        <h2 class="contact-title">
+          Ready to Shape the<br/><span class="gradient-text">Future?</span>
+        </h2>
+        <p class="contact-sub">Be part of Asia's most electrifying technology festival. Register now before seats run out.</p>
+        <form class="contact-form" id="contact-form" novalidate>
+          <div class="form-row">
+            <div class="form-group">
+              <input type="text" id="name" name="name" class="form-input" placeholder=" " required autocomplete="name" />
+              <label for="name" class="form-label">Your Name</label>
+            </div>
+            <div class="form-group">
+              <input type="email" id="email" name="email" class="form-input" placeholder=" " required autocomplete="email" />
+              <label for="email" class="form-label">Email Address</label>
+            </div>
+          </div>
+          <div class="form-group">
+            <select id="category" name="category" class="form-input form-select">
+              <option value="">Select Event Category</option>
+              <option value="robotics">Robotics</option>
+              <option value="ai">AI &amp; Machine Learning</option>
+              <option value="space">Space Technology</option>
+              <option value="quantum">Quantum Computing</option>
+              <option value="drone">Drone Racing</option>
+              <option value="gaming">E-Sports</option>
+            </select>
+            <label for="category" class="form-label">Event Category</label>
+          </div>
+          <div class="form-group">
+            <textarea id="message" name="message" class="form-input form-textarea" placeholder=" " rows="4"></textarea>
+            <label for="message" class="form-label">Tell us about yourself...</label>
+          </div>
+          <button type="submit" class="btn btn-primary btn-submit" id="submit-btn">
+            <span class="btn-text">Register Interest</span>
+            <svg class="btn-icon" aria-hidden="true"><use href="#icon-arrow-right"/></svg>
+          </button>
+        </form>
+        <div class="contact-success" id="contact-success" aria-live="polite">
+          <div class="success-icon">
+            <svg aria-label="Success"><use href="#icon-check-circle"/></svg>
+          </div>
+          <h3>You're on the list!</h3>
+          <p>We'll notify you with all the event details soon.</p>
+        </div>
+      </div>
+      <div class="contact-side">
+        <div class="info-card">
+          <div class="info-card-icon">
+            <svg aria-hidden="true"><use href="#icon-pin"/></svg>
+          </div>
+          <div><h4>Location</h4><p>IIT Bombay, Powai, Mumbai, Maharashtra 400076</p></div>
+        </div>
+        <div class="info-card">
+          <div class="info-card-icon">
+            <svg aria-hidden="true"><use href="#icon-calendar"/></svg>
+          </div>
+          <div><h4>Date</h4><p>January 17–19, 2025</p></div>
+        </div>
+        <div class="info-card">
+          <div class="info-card-icon">
+            <svg aria-hidden="true"><use href="#icon-globe"/></svg>
+          </div>
+          <div><h4>Website</h4><p>techfest.org</p></div>
+        </div>
+        <div class="info-card">
+          <div class="info-card-icon">
+            <svg aria-hidden="true"><use href="#icon-mail"/></svg>
+          </div>
+          <div><h4>Email</h4><p>contact@techfest.org</p></div>
+        </div>
+        <div class="social-links">
+          <a href="#" class="social-btn" aria-label="Twitter / X">
+            <svg aria-hidden="true"><use href="#icon-twitter"/></svg>
+          </a>
+          <a href="#" class="social-btn" aria-label="Instagram">
+            <svg aria-hidden="true"><use href="#icon-instagram"/></svg>
+          </a>
+          <a href="#" class="social-btn" aria-label="LinkedIn">
+            <svg aria-hidden="true"><use href="#icon-linkedin"/></svg>
+          </a>
+          <a href="#" class="social-btn" aria-label="YouTube">
+            <svg aria-hidden="true"><use href="#icon-youtube"/></svg>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer-inner">
+      <div class="footer-logo">
+        <span class="nav-tf">TECH</span><span class="nav-fest">FEST</span>
+        <span class="footer-tagline">IIT Bombay · Est. 1998</span>
+      </div>
+      <p class="footer-copy">© 2025 Techfest, IIT Bombay. All rights reserved.</p>
+      <div class="footer-links">
+        <a href="#">Privacy Policy</a>
+        <a href="#">Terms of Use</a>
+        <a href="#">Sponsors</a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="main.js"></script>
+</body>
+</html>
